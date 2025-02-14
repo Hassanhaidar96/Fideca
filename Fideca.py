@@ -4,11 +4,10 @@ Created on Thu Feb  6 12:45:38 2025
 
 @author: hah
 """
+import streamlit as st
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import streamlit as st
-
 
 # Streamlit app title
 st.title("Shear Force and Rotation Analysis")
@@ -59,7 +58,7 @@ if st.sidebar.button("Run Analysis"):
     Row = (Row_x * Row_y) ** 0.5
 
     A_0 = ((Spacing_Phi_x_Compression * Spacing_Phi_y_Compression) + (Spacing_Phi_x_Compression * 0.5 * dv_0 * 2) + 
-          ((Spacing_Phi_y_Compression * 0.5 * dv_0 * 2) + ((math.pi) * ((dv_0 ** 2) / 4)))
+          ((Spacing_Phi_y_Compression * 0.5 * dv_0 * 2) + ((math.pi) * ((dv_0 ** 2) / 4))))
     U_0 = Spacing_Phi_x_Compression + Spacing_Phi_x_Compression + Spacing_Phi_y_Compression + Spacing_Phi_x_Compression + (math.pi) * dv_0
     B_u_0 = (4 * A_0 / (math.pi)) ** 0.5
 
@@ -123,10 +122,10 @@ if st.sidebar.button("Run Analysis"):
         Ksys_max = 4 * (1 - (0.5 * (15 / (15 + max(Phi_x_Flexural, Phi_y_Flexural)))))
 
         ### A_out and U_out calculations
-        A_out = ((L_Korb + 100 + L_Korb) * L_Korb) + 
+        A_out = (((L_Korb + 100 + L_Korb) * L_Korb) + 
                   ((L_Korb + 100 + L_Korb) * 0.5 * dv_out * 2) + 
                   (0.5 * dv_out * L_Korb * 2) + 
-                  (math.pi * dv_out * dv_out * 0.25)
+                  (math.pi * dv_out * dv_out * 0.25))
         U_out = (L_Korb + 100 + L_Korb) + (L_Korb + 100 + L_Korb) + L_Korb + L_Korb + (math.pi) * dv_out
         b_u_out = (((4 * A_out) / (math.pi)) ** 0.5)
         k_e_out = 1 / (1 + (e_u / b_u_out))
@@ -239,6 +238,5 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"N_r: {N_r:.2f}")
     st.write(f"Fyd: {Fyd:.2f} MPa")
     st.write(f"Nt_berechnet: {Nt_berechnet:.2f} kN")
-
 
 
