@@ -11,7 +11,7 @@ import numpy as np
 
 st.set_page_config(
     page_icon="LogoTab.png",  
-    page_title="Fideca"  
+    page_title="FidecaWebapp"  
 )
 
 # Streamlit app title
