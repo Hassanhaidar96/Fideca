@@ -101,6 +101,7 @@ if st.sidebar.button("Run Analysis"):
     Psi_list = []
     VRd_list = []
 
+    V_RD_DD_min_Fideca1_list = []
     V_RD_DD_min_list = []
     VRd_aus_list = []
     VRdc_VRds_list = []
@@ -137,6 +138,13 @@ if st.sidebar.button("Run Analysis"):
 
         U_red1 = U_out * k_e_out
 
+        Kr_Fideca1 = min((1/(0.45+(0.18*Psi*Kg*dv_0))),2)
+        Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
+
+        V_RD_DD_Fideca1 = Ksys * Kr_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
+        V_RD_DD2_max_Fideca1 = Ksys_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
+        V_RD_DD_min_Fideca1 = min(V_RD_DD_Fideca1, V_RD_DD2_max_Fideca1)
+
         V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
@@ -154,6 +162,7 @@ if st.sidebar.button("Run Analysis"):
         Psi_list.append(Psi)
         VRd_list.append(VRd)
 
+        V_RD_DD_min_Fideca1_list.append(V_RD_DD_min_Fideca1) #Fideca 1.0
         V_RD_DD_min_list.append(V_RD_DD_min)
         VRd_aus_list.append(VRd_aus)
         VRdc_VRds_list.append(VRdc_VRds)
@@ -161,6 +170,8 @@ if st.sidebar.button("Run Analysis"):
     # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list)
     VRd_array = np.array(VRd_list)
+    
+    V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
     VRd_aus_array = np.array(VRd_aus_list)
     VRdc_VRds_array = np.array(VRdc_VRds_list)
@@ -182,6 +193,7 @@ if st.sidebar.button("Run Analysis"):
     ax.plot(Psi_list, VRd_list, label='VRd', linestyle='--', marker='s', markersize=3, color='#ff7f0e', linewidth=1)
 
     # Plot rotation (x-axis) vs. shear force (y-axis)
+    ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD_Fideca_1.0', linestyle=':', color='#7f7f7f', linewidth=1.5)
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle=':', color='#7f7f7f', linewidth=1.5)
     ax.plot(Psi_list, VRd_aus_array, label='VRd_aus', linestyle='-.', color='#8c564b', linewidth=1.5)
     ax.plot(Psi_list, VRdc_VRds_array, label='VRdc_VRds', linestyle='--', color='#e377c2', linewidth=1.5)
