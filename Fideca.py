@@ -190,13 +190,13 @@ if st.sidebar.button("Run Analysis"):
 
     # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, Vd_Iteration_list, label='Vd_Iteration', linestyle='-', marker='o', markersize=3, color='#1f77b4', linewidth=1)
-    ax.plot(Psi_list, VRd_list, label='VRd', linestyle='--', marker='s', markersize=3, color='#ff7f0e', linewidth=1)
+    # ax.plot(Psi_list, VRd_list, label='VRd', linestyle='--', marker='s', markersize=3, color='#ff7f0e', linewidth=1)
 
     # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD_Fideca_1.0', linestyle=':', color='#7f7f7f', linewidth=1.5)
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle=':', color='#7f7f7f', linewidth=1.5)
-    ax.plot(Psi_list, VRd_aus_array, label='VRd_aus', linestyle='-.', color='#8c564b', linewidth=1.5)
-    ax.plot(Psi_list, VRdc_VRds_array, label='VRdc_VRds', linestyle='--', color='#e377c2', linewidth=1.5)
+    # ax.plot(Psi_list, VRd_aus_array, label='VRd_aus', linestyle='-.', color='#8c564b', linewidth=1.5)
+    # ax.plot(Psi_list, VRdc_VRds_array, label='VRdc_VRds', linestyle='--', color='#e377c2', linewidth=1.5)
 
     # Mark the intersection point
     ax.scatter(intersection_Psi, intersection_Vd, color='red', s=120, zorder=5, label="Intersection", edgecolors='black')
