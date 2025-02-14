@@ -1,0 +1,9 @@
+matplotlib
+streamlit
+sympy
+scipy
+Pillow
+reportlab
+fpdf
+openpyxl
+xlsxwriter
