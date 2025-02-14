@@ -193,8 +193,8 @@ if st.sidebar.button("Run Analysis"):
     # ax.plot(Psi_list, VRd_list, label='VRd', linestyle='--', marker='s', markersize=3, color='#ff7f0e', linewidth=1)
 
     # Plot rotation (x-axis) vs. shear force (y-axis)
-    # ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD_Fideca_1.0', linestyle=':', color='#7f7f7f', linewidth=1.5)
-    # ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle=':', color='#7f7f7f', linewidth=1.5)
+    ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD_Fideca_1.0', linestyle=':', color='#7f7f7f', linewidth=1.5)
+    ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle=':', color='#7f7f7f', linewidth=1.5)
     # ax.plot(Psi_list, VRd_aus_array, label='VRd_aus', linestyle='-.', color='#8c564b', linewidth=1.5)
     # ax.plot(Psi_list, VRdc_VRds_array, label='VRdc_VRds', linestyle='--', color='#e377c2', linewidth=1.5)
 
