@@ -9,6 +9,11 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
+st.set_page_config(
+    page_icon="LogoTab.png",  
+    page_title="Fideca"  
+)
+
 # Streamlit app title
 st.title("Shear Force and Rotation Analysis")
 
