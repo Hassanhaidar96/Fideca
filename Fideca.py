@@ -171,7 +171,7 @@ if st.sidebar.button("Run Analysis"):
     Vd_Iteration_array = np.array(Vd_Iteration_list)
     VRd_array = np.array(VRd_list)
     
-    V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1)
+    V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1_list)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
     VRd_aus_array = np.array(VRd_aus_list)
     VRdc_VRds_array = np.array(VRdc_VRds_list)
