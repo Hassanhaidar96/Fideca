@@ -96,130 +96,139 @@ if st.sidebar.button("Run Analysis"):
     Fyd = Fsd
     Nt_berechnet = (Vd_effective * 1000) / (Ke_0 * N_r * Area_Stirrups * Sin_Betta * 0.75 * Fyd)
 
+
+
     # Initialize lists to store results
     Vd_Iteration_list = []
     Psi_list = []
     VRd_list = []
-
     V_RD_DD_min_Fideca1_list = []
     V_RD_DD_min_list = []
     VRd_aus_list = []
     VRdc_VRds_list = []
-
+    
+    # Tolerance for convergence
+    tolerance = 1e-3
+    
     # Loop over Vd_Iteration from 1 to 1500
     for Vd_Iteration in range(1, 2001):
-        # Calculate m_sdx and m_sdy (dependent on Vd_Iteration)
-        m_sdx = Vd_Iteration * (((1 / 8)) + (e_ux / (2 * B_s)))  # SIA 4.3.6.4.7
-        m_sdy = Vd_Iteration * (((1 / 8)) + (e_uy / (2 * B_s)))  # SIA 4.3.6.4.7
-
-        # Calculate Psi_x and Psi_y. Note: Psi_y comment says "I think it should be m_Rd_y"
-        Psi_x = 1.5 * (r_sx / dv_x_0) * (Fsd / E_s) * ((m_sdx / m_Rd_x)**1.5)
-        Psi_y = 1.5 * (r_sy / dv_y_0) * (Fsd / E_s) * ((m_sdy / m_Rd_y)**1.5)
-
-        Psi = max(Psi_x, Psi_y)
-
-        Sigma_sd = min(((E_s * Psi / 6) * (1 + (Fbd / Fsd) * (dv_0 / Phi_Stirrups))), Fsd)
-
-        T_w = (N_s * Area_Stirrups * Sigma_sd) / 1000
-
-        Kr = min((1 / (0.45 + (0.18 * Psi * Kg * dv_0))), 2)
-
-        Ksys = 3.3 * min(1, (1 - 3.2 * (((Cu + 15) / dv_0) - 0.125)))
-        Ksys_max = 4 * (1 - (0.5 * (15 / (15 + max(Phi_x_Flexural, Phi_y_Flexural)))))
-
-        ### A_out and U_out calculations
-        A_out = (((L_Korb + 100 + L_Korb) * L_Korb) + 
-                  ((L_Korb + 100 + L_Korb) * 0.5 * dv_out * 2) + 
-                  (0.5 * dv_out * L_Korb * 2) + 
-                  (math.pi * dv_out * dv_out * 0.25))
-        U_out = (L_Korb + 100 + L_Korb) + (L_Korb + 100 + L_Korb) + L_Korb + L_Korb + (math.pi) * dv_out
-        b_u_out = (((4 * A_out) / (math.pi)) ** 0.5)
-        k_e_out = 1 / (1 + (e_u / b_u_out))
-
-        U_red1 = U_out * k_e_out
-
-        Kr_Fideca1 = min((1/(0.45+(0.18*Psi*Kg*dv_0))),2)
-        Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
-
-        V_RD_DD_Fideca1 = Ksys * Kr_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD2_max_Fideca1 = Ksys_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD_min_Fideca1 = min(V_RD_DD_Fideca1, V_RD_DD2_max_Fideca1)
-
-        V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
-
+        # Initialize V_RD_DD_min with Vd_Iteration
+        V_RD_DD_min = Vd_Iteration
+        
+        # Iterative adjustment of V_RD_DD_min
+        while True:
+            # Calculate m_sdx and m_sdy (dependent on V_RD_DD_min)
+            m_sdx = V_RD_DD_min * (((1 / 8)) + (e_ux / (2 * B_s)))  # SIA 4.3.6.4.7
+            m_sdy = V_RD_DD_min * (((1 / 8)) + (e_uy / (2 * B_s)))  # SIA 4.3.6.4.7
+    
+            # Calculate Psi_x and Psi_y
+            Psi_x = 1.5 * (r_sx / dv_x_0) * (Fsd / E_s) * ((m_sdx / m_Rd_x)**1.5)
+            Psi_y = 1.5 * (r_sy / dv_y_0) * (Fsd / E_s) * ((m_sdy / m_Rd_y)**1.5)
+    
+            Psi = max(Psi_x, Psi_y)
+    
+            Sigma_sd = min(((E_s * Psi / 6) * (1 + (Fbd / Fsd) * (dv_0 / Phi_Stirrups))), Fsd)
+    
+            T_w = (N_s * Area_Stirrups * Sigma_sd) / 1000
+    
+            Kr = min((1 / (0.45 + (0.18 * Psi * Kg * dv_0))), 2)
+    
+            Ksys = 3.3 * min(1, (1 - 3.2 * (((Cu + 15) / dv_0) - 0.125)))
+            Ksys_max = 4 * (1 - (0.5 * (15 / (15 + max(Phi_x_Flexural, Phi_y_Flexural)))))
+    
+            ### A_out and U_out calculations
+            A_out = (((L_Korb + 100 + L_Korb) * L_Korb) + 
+                      ((L_Korb + 100 + L_Korb) * 0.5 * dv_out * 2) + 
+                      (0.5 * dv_out * L_Korb * 2) + 
+                      (math.pi * dv_out * dv_out * 0.25))
+            U_out = (L_Korb + 100 + L_Korb) + (L_Korb + 100 + L_Korb) + L_Korb + L_Korb + (math.pi) * dv_out
+            b_u_out = (((4 * A_out) / (math.pi)) ** 0.5)
+            k_e_out = 1 / (1 + (e_u / b_u_out))
+    
+            U_red1 = U_out * k_e_out
+    
+            Kr_Fideca1 = min((1/(0.45+(0.18*Psi*Kg*dv_0))),2)
+            Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
+    
+            V_RD_DD_Fideca1 = Ksys * Kr_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
+            V_RD_DD2_max_Fideca1 = Ksys_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
+            V_RD_DD_min_Fideca1 = min(V_RD_DD_Fideca1, V_RD_DD2_max_Fideca1)
+    
+            V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
+            V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000
+            V_RD_DD_min_new = min(V_RD_DD, V_RD_DD2_max)
+    
+            # Check for convergence
+            if abs(V_RD_DD_min_new - V_RD_DD_min) < tolerance:
+                V_RD_DD_min = V_RD_DD_min_new
+                break
+            else:
+                V_RD_DD_min = V_RD_DD_min_new
+    
+        # Calculate VRd_aus and VRd_s
         VRd_aus = Kr * Taw_cd * dv_out * U_red1 / 1000
-
         VRd_s = Ke_0 * T_w
-
+    
+        # Calculate VRdc_VRds and VRd
         VRdc_VRds = (V_RD_DD_min / Ksys) + VRd_s
-
         VRd = min(V_RD_DD_min, VRd_aus, VRdc_VRds)
-
+    
         # Store results
         Vd_Iteration_list.append(Vd_Iteration)
         Psi_list.append(Psi)
         VRd_list.append(VRd)
-
-        V_RD_DD_min_Fideca1_list.append(V_RD_DD_min_Fideca1) #Fideca 1.0
+        V_RD_DD_min_Fideca1_list.append(V_RD_DD_min_Fideca1)
         V_RD_DD_min_list.append(V_RD_DD_min)
         VRd_aus_list.append(VRd_aus)
         VRdc_VRds_list.append(VRdc_VRds)
-
+    
     # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list)
     VRd_array = np.array(VRd_list)
-    
     V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1_list)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
     VRd_aus_array = np.array(VRd_aus_list)
     VRdc_VRds_array = np.array(VRdc_VRds_list)
     Psi_array = np.array(Psi_list)
-
+    
     # Find the closest intersection point
     index = np.argmin(np.abs(Vd_Iteration_array - VRd_array))
     intersection_Vd = Vd_Iteration_array[index]
     intersection_VRd = VRd_array[index]
     intersection_Psi = Psi_list[index]
-
+    
     st.write(f"Intersection Point: Ψ = {intersection_Psi:.4f}, Vd = {intersection_Vd:.2f} kN, VRd = {intersection_VRd:.2f} kN")
-
+    
     # Plotting the results
     fig, ax = plt.subplots(figsize=(10, 6))
-
+    
     # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, Vd_Iteration_list, label='Vd_Iteration', linestyle='-', marker='o', markersize=3, color='#7f7f7f', linewidth=1)
-    # ax.plot(Psi_list, VRd_list, label='VRd', linestyle='--', marker='s', markersize=3, color='#ff7f0e', linewidth=1)
-
-    # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, V_RD_DD_min_Fideca1_array, label='V_RD_DD_Fideca_1.0', linestyle='-', color='#1f77b4', linewidth=1.5)
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle='-', color='#8c564b', linewidth=1.5)
-    # ax.plot(Psi_list, VRd_aus_array, label='VRd_aus', linestyle='-.', color='#8c564b', linewidth=1.5)
-    # ax.plot(Psi_list, VRdc_VRds_array, label='VRdc_VRds', linestyle='--', color='#e377c2', linewidth=1.5)
-
+    
     # Mark the intersection point
     ax.scatter(intersection_Psi, intersection_Vd, color='red', s=120, zorder=5, label="Intersection", edgecolors='black')
-
+    
     # Annotate the intersection point
     ax.annotate(f'Intersection\nΨ: {intersection_Psi:.4f} rad\nVd: {intersection_Vd:.2f} kN',
                  xy=(intersection_Psi, intersection_Vd),
                  xytext=(intersection_Psi + 0.002, intersection_Vd - 100),
                  arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
-
+    
     # Axis labels and titles
     ax.set_xlabel('Rotation Ψ (rad)', fontsize=12, labelpad=10)
     ax.set_ylabel('Shear Force (kN)', fontsize=12, labelpad=10)
     ax.set_title('Rotation Ψ vs Shear Force', fontsize=14, pad=15)
-
+    
     ax.legend(loc='upper right', frameon=True)
     ax.grid(True, linestyle=':', alpha=0.7)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-
+    
     ax.set_xlim(0, 0.02)
     ax.set_ylim(0, 2000)
-
+    
     plt.tight_layout()
     st.pyplot(fig)
 
