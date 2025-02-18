@@ -263,6 +263,6 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"m_sdx: {m_sdx:.2f} ")   
     st.write(f"m_sdy: {m_sdy:.2f} ") 
     
-    st.write(f"Psi_x: {Psi_x:.2f} ")
-    st.write(f"Psi_y: {Psi_y:.2f} ")
-    st.write(f"Psi: {Psi:.2f} ")
+    st.write(f"Psi_x: {Psi_x:.5f} ")
+    st.write(f"Psi_y: {Psi_y:.5f} ")
+    st.write(f"Psi: {Psi:.5f} ")
