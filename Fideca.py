@@ -166,7 +166,8 @@ if st.sidebar.button("Run Analysis"):
         # VRd_aus_list.append(VRd_aus)
         # VRdc_VRds_list.append(VRdc_VRds)
 
-
+        Kr_Fideca1_list = []
+        Kr_Fideca1_list.append(Kr_Fideca1)
 
     # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list) 
@@ -292,5 +293,6 @@ if st.sidebar.button("Run Analysis"):
     st.write(Psi_array)
     st.write(Vd_Iteration_array)
     st.write(V_RD_DD_min_Fideca1_array )
+    st.write(Kr_Fideca1_list)
   
     
