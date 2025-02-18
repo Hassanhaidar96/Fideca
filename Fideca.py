@@ -305,6 +305,6 @@ if st.sidebar.button("Run Analysis"):
     st.write(V_RD_DD_min_Fideca1_array )
     
     st.write(Kr_Fideca1_array)
-    st.write(Kr_Fideca1_array)
-    st.write(Kr_Fideca1_array)
+    st.write(V_RD_DD_Fideca1_array)
+    st.write(V_RD_DD2_max_Fideca1_array)
     
