@@ -278,5 +278,5 @@ if st.sidebar.button("Run Analysis"):
     
     st.write(f"Kr_Fideca1: {Kr_Fideca1:.5f} ")
     st.write(f"Ksys_Fideca1 : {Ksys_Fideca1 :.5f} ")
-    
+    st.write(f"V_RD_DD_Fideca1 : {V_RD_DD_Fideca1 :.5f} ")
 
