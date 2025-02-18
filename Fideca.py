@@ -149,41 +149,41 @@ if st.sidebar.button("Run Analysis"):
         V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
 
-        VRd_aus = Kr * Taw_cd * dv_out * U_red1 / 1000
-
-        VRd_s = Ke_0 * T_w
-
-        VRdc_VRds = (V_RD_DD_min / Ksys) + VRd_s
-
-        VRd = min(V_RD_DD_min, VRd_aus, VRdc_VRds)
+        # VRd_aus = Kr * Taw_cd * dv_out * U_red1 / 1000
+        # VRd_s = Ke_0 * T_w
+        # VRdc_VRds = (V_RD_DD_min / Ksys) + VRd_s
+        # VRd = min(V_RD_DD_min, VRd_aus, VRdc_VRds)
+        
 
         # Store results
         Vd_Iteration_list.append(Vd_Iteration)
         Psi_list.append(Psi)
-        VRd_list.append(VRd)
+        # VRd_list.append(VRd)
 
         V_RD_DD_min_Fideca1_list.append(V_RD_DD_min_Fideca1) #Fideca 1.0
         V_RD_DD_min_list.append(V_RD_DD_min)
-        VRd_aus_list.append(VRd_aus)
-        VRdc_VRds_list.append(VRdc_VRds)
+        # VRd_aus_list.append(VRd_aus)
+        # VRdc_VRds_list.append(VRdc_VRds)
 
     # Convert lists to NumPy arrays
-    Vd_Iteration_array = np.array(Vd_Iteration_list)
+    Vd_Iteration_array = np.array(Vd_Iteration_list) 
     VRd_array = np.array(VRd_list)
     
     V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1_list)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
-    VRd_aus_array = np.array(VRd_aus_list)
-    VRdc_VRds_array = np.array(VRdc_VRds_list)
+    
+    # VRd_aus_array = np.array(VRd_aus_list)
+    # VRdc_VRds_array = np.array(VRdc_VRds_list)
+    
     Psi_array = np.array(Psi_list)
 
     # Find the closest intersection point
-    index = np.argmin(np.abs(Vd_Iteration_array - VRd_array))
+    index = np.argmin(np.abs(Vd_Iteration_array - V_RD_DD_min_array))
     intersection_Vd = Vd_Iteration_array[index]
-    intersection_VRd = VRd_array[index]
+    intersection_V_RD_DD_min = V_RD_DD_min_array[index]
     intersection_Psi = Psi_list[index]
 
-    st.write(f"Intersection Point: Ψ = {intersection_Psi:.4f}, Vd = {intersection_Vd:.2f} kN, VRd = {intersection_VRd:.2f} kN")
+    st.write(f"Intersection Point: Ψ = {intersection_Psi:.4f}, Vd = {intersection_Vd:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
 
     # Plotting the results
     fig, ax = plt.subplots(figsize=(10, 6))
