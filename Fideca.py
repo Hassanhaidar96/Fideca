@@ -213,8 +213,8 @@ if st.sidebar.button("Run Analysis"):
     intersection_V_RD_DD_min = np.interp(intersection_Psi_min, Psi_array, V_RD_DD_min_array)
     
     # Display intersection points
-    st.write(f"Intersection Point (V_RD_DD_min): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
-    st.write(f"Intersection Point (V_RD_DD_min_Fideca1): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
+    st.write(f"Intersection Point (Fideca 2.0): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
+    st.write(f"Intersection Point (Fideca 1.0): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
     
     # Plotting the results (unchanged)
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -248,7 +248,7 @@ if st.sidebar.button("Run Analysis"):
     ax.spines['right'].set_visible(False)
     
     ax.set_xlim(0, 0.02)
-    ax.set_ylim(0, 5000)
+    ax.set_ylim(0, 3000)
     
     plt.tight_layout()
     st.pyplot(fig)
