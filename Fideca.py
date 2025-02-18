@@ -177,49 +177,59 @@ if st.sidebar.button("Run Analysis"):
     
     Psi_array = np.array(Psi_list)
 
-    # Find the closest intersection point
-    index = np.argmin(np.abs(Vd_Iteration_array - V_RD_DD_min_array))
-    intersection_Vd = Vd_Iteration_array[index]
-    intersection_V_RD_DD_min = V_RD_DD_min_array[index]
-    intersection_Psi = Psi_list[index]
+    # Find the closest intersection point for V_RD_DD_min_array
+    index_min = np.argmin(np.abs(Vd_Iteration_array - V_RD_DD_min_array))
+    intersection_Vd_min = Vd_Iteration_array[index_min]
+    intersection_V_RD_DD_min = V_RD_DD_min_array[index_min]
+    intersection_Psi_min = Psi_list[index_min]
+    
+    # Find the closest intersection point for V_RD_DD_min_Fideca1_array
+    index_fideca1 = np.argmin(np.abs(Vd_Iteration_array - V_RD_DD_min_Fideca1_array))
+    intersection_Vd_fideca1 = Vd_Iteration_array[index_fideca1]
+    intersection_V_RD_DD_min_fideca1 = V_RD_DD_min_Fideca1_array[index_fideca1]
+    intersection_Psi_fideca1 = Psi_list[index_fideca1]
 
-    st.write(f"Intersection Point: Ψ = {intersection_Psi:.4f}, Vd = {intersection_Vd:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
+    # Display intersection points
+    st.write(f"Intersection Point (V_RD_DD_min): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
+    st.write(f"Intersection Point (V_RD_DD_min_Fideca1): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
+
 
     # Plotting the results
     fig, ax = plt.subplots(figsize=(10, 6))
 
     # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, Vd_Iteration_list, label='Vd_Iteration', linestyle='-', marker='o', markersize=3, color='#7f7f7f', linewidth=1)
-    # ax.plot(Psi_list, VRd_list, label='VRd', linestyle='--', marker='s', markersize=3, color='#ff7f0e', linewidth=1)
-
-    # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, V_RD_DD_min_Fideca1_array, label='V_RD_DD_Fideca_1.0', linestyle='-', color='#1f77b4', linewidth=1.5)
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle='-', color='#8c564b', linewidth=1.5)
-    # ax.plot(Psi_list, VRd_aus_array, label='VRd_aus', linestyle='-.', color='#8c564b', linewidth=1.5)
-    # ax.plot(Psi_list, VRdc_VRds_array, label='VRdc_VRds', linestyle='--', color='#e377c2', linewidth=1.5)
+    
+    # Mark the intersection points
+    ax.scatter(intersection_Psi_min, intersection_Vd_min, color='red', s=120, zorder=5, label="Intersection (V_RD_DD_min)", edgecolors='black')
+    ax.scatter(intersection_Psi_fideca1, intersection_Vd_fideca1, color='blue', s=120, zorder=5, label="Intersection (V_RD_DD_min_Fideca1)", edgecolors='black')
 
-    # Mark the intersection point
-    ax.scatter(intersection_Psi, intersection_Vd, color='red', s=120, zorder=5, label="Intersection", edgecolors='black')
-
-    # Annotate the intersection point
-    ax.annotate(f'Intersection\nΨ: {intersection_Psi:.4f} rad\nVd: {intersection_Vd:.2f} kN',
-                 xy=(intersection_Psi, intersection_Vd),
-                 xytext=(intersection_Psi + 0.002, intersection_Vd - 100),
+    # Annotate the intersection points
+    ax.annotate(f'Intersection (V_RD_DD_min)\nΨ: {intersection_Psi_min:.4f} rad\nVd: {intersection_Vd_min:.2f} kN',
+                 xy=(intersection_Psi_min, intersection_Vd_min),
+                 xytext=(intersection_Psi_min + 0.002, intersection_Vd_min - 100),
+                 arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
+    
+    ax.annotate(f'Intersection (V_RD_DD_min_Fideca1)\nΨ: {intersection_Psi_fideca1:.4f} rad\nVd: {intersection_Vd_fideca1:.2f} kN',
+                 xy=(intersection_Psi_fideca1, intersection_Vd_fideca1),
+                 xytext=(intersection_Psi_fideca1 + 0.002, intersection_Vd_fideca1 - 100),
                  arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
 
     # Axis labels and titles
     ax.set_xlabel('Rotation Ψ (rad)', fontsize=12, labelpad=10)
     ax.set_ylabel('Shear Force (kN)', fontsize=12, labelpad=10)
     ax.set_title('Rotation Ψ vs Shear Force', fontsize=14, pad=15)
-
+    
     ax.legend(loc='upper right', frameon=True)
     ax.grid(True, linestyle=':', alpha=0.7)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-
+    
     ax.set_xlim(0, 0.02)
     ax.set_ylim(0, 2000)
-
+    
     plt.tight_layout()
     st.pyplot(fig)
 
