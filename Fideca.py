@@ -288,3 +288,9 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"Ksys_Fideca1 : {Ksys_Fideca1 :.5f} ")
     st.write(f"V_RD_DD_Fideca1 : {V_RD_DD_Fideca1 :.5f} ")
 
+
+    st.write(Psi_array)
+    st.write(Vd_Iteration_array)
+    st.write(V_RD_DD_min_Fideca1_array )
+  
+    
