@@ -106,7 +106,8 @@ if st.sidebar.button("Run Analysis"):
     V_RD_DD_min_list = []
     VRd_aus_list = []
     VRdc_VRds_list = []
-
+    Kr_Fideca1_list = []
+    
     # Loop over Vd_Iteration from 1 to 1500
     for Vd_Iteration in range(1, 1495):
         # Calculate m_sdx and m_sdy (dependent on Vd_Iteration)
@@ -166,10 +167,11 @@ if st.sidebar.button("Run Analysis"):
         # VRd_aus_list.append(VRd_aus)
         # VRdc_VRds_list.append(VRdc_VRds)
 
-        Kr_Fideca1_list = []
+        
         Kr_Fideca1_list.append(Kr_Fideca1)
         
-    Kr_Fideca1_array = np.array(Kr_Fideca1_list)     
+    Kr_Fideca1_array = np.array(Kr_Fideca1_list)    
+    
     # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list) 
     VRd_array = np.array(VRd_list)
