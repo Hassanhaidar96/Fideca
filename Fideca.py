@@ -257,5 +257,7 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"Nt_berechnet: {Nt_berechnet:.2f} kN")
     st.write(f"Sigma_sd: {Sigma_sd:.2f} kN")
     st.write(f"T_w: {T_w:.2f} kN")
-
-
+    
+    st.write(f"Psi_x: {Psi_x:.2f} ")
+    st.write(f"Psi_y: {Psi_y:.2f} ")
+    st.write(f"Psi: {Psi:.2f} ")
