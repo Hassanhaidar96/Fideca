@@ -229,7 +229,7 @@ if st.sidebar.button("Run Analysis"):
     # Annotate the intersection points
     ax.annotate(f'Intersection (V_RD_DD_min)\nΨ: {intersection_Psi_min:.4f} rad\nVd: {intersection_Vd_min:.2f} kN',
                   xy=(intersection_Psi_min, intersection_Vd_min),
-                  xytext=(intersection_Psi_min + 0.002, intersection_Vd_min - 100),
+                  xytext=(intersection_Psi_min - 0.002, intersection_Vd_min + 100),
                   arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
     
     ax.annotate(f'Intersection (V_RD_DD_min_Fideca1)\nΨ: {intersection_Psi_fideca1:.4f} rad\nVd: {intersection_Vd_fideca1:.2f} kN',
