@@ -107,7 +107,7 @@ if st.sidebar.button("Run Analysis"):
     VRdc_VRds_list = []
 
     # Loop over Vd_Iteration from 1 to 1500
-    for Vd_Iteration in range(1, 2001):
+    for Vd_Iteration in range(1, 2):
         # Calculate m_sdx and m_sdy (dependent on Vd_Iteration)
         m_sdx = Vd_Iteration * (((1 / 8)) + (e_ux / (2 * B_s)))  # SIA 4.3.6.4.7
         m_sdy = Vd_Iteration * (((1 / 8)) + (e_uy / (2 * B_s)))  # SIA 4.3.6.4.7
