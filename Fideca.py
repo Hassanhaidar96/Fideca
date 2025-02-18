@@ -112,7 +112,7 @@ if st.sidebar.button("Run Analysis"):
     V_RD_DD2_max_Fideca1_list = []
     
     # Loop over Vd_Iteration from 1 to 1500
-    for Vd_Iteration in range(1, 3001):
+    for Vd_Iteration in range(1, 5001):
         # Calculate m_sdx and m_sdy (dependent on Vd_Iteration)
         m_sdx = Vd_Iteration * (((1 / 8)) + (e_ux / (2 * B_s)))  # SIA 4.3.6.4.7
         m_sdy = Vd_Iteration * (((1 / 8)) + (e_uy / (2 * B_s)))  # SIA 4.3.6.4.7
@@ -248,7 +248,7 @@ if st.sidebar.button("Run Analysis"):
     ax.spines['right'].set_visible(False)
     
     ax.set_xlim(0, 0.02)
-    ax.set_ylim(0, 3000)
+    ax.set_ylim(0, 5000)
     
     plt.tight_layout()
     st.pyplot(fig)
@@ -278,34 +278,34 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"Taw_cd: {Taw_cd:.2f} MPa")
     st.write(f"Fsd: {Fsd:.2f} MPa")
     st.write(f"Kg: {Kg:.2f}")
-    st.write(f"m_Rd_x: {m_Rd_x:.2f} kNm")
-    st.write(f"m_Rd_y: {m_Rd_y:.2f} kNm")
+    # st.write(f"m_Rd_x: {m_Rd_x:.2f} kNm")
+    # st.write(f"m_Rd_y: {m_Rd_y:.2f} kNm")
     st.write(f"Sin_Betta: {Sin_Betta:.4f}")
     st.write(f"Area_Stirrups: {Area_Stirrups:.2f} mm²")
     st.write(f"N_r: {N_r:.2f}")
     st.write(f"Fyd: {Fyd:.2f} MPa")
     st.write(f"Nt_berechnet: {Nt_berechnet:.2f} kN")
-    st.write(f"Sigma_sd: {Sigma_sd:.2f} kN")
-    st.write(f"T_w: {T_w:.2f} kN")
-    st.write(f"m_sdx: {m_sdx:.2f} ")   
-    st.write(f"m_sdy: {m_sdy:.2f} ") 
-    st.write(f"Psi_x: {Psi_x:.5f} ")
-    st.write(f"Psi_y: {Psi_y:.5f} ")
-    st.write(f"Psi: {Psi:.5f} ")
+    # st.write(f"Sigma_sd: {Sigma_sd:.2f} kN")
+    # st.write(f"T_w: {T_w:.2f} kN")
+    # st.write(f"m_sdx: {m_sdx:.2f} ")   
+    # st.write(f"m_sdy: {m_sdy:.2f} ") 
+    # st.write(f"Psi_x: {Psi_x:.5f} ")
+    # st.write(f"Psi_y: {Psi_y:.5f} ")
+    # st.write(f"Psi: {Psi:.5f} ")
  
-    st.write(f"Ksys_max: {Ksys_max:.5f} ")
-    st.write(f"Ksys : {Ksys :.5f} ")
+    # st.write(f"Ksys_max: {Ksys_max:.5f} ")
+    # st.write(f"Ksys : {Ksys :.5f} ")
     
-    st.write(f"Kr_Fideca1: {Kr_Fideca1:.5f} ")
-    st.write(f"Ksys_Fideca1 : {Ksys_Fideca1 :.5f} ")
-    st.write(f"V_RD_DD_Fideca1 : {V_RD_DD_Fideca1 :.5f} ")
+    # st.write(f"Kr_Fideca1: {Kr_Fideca1:.5f} ")
+    # st.write(f"Ksys_Fideca1 : {Ksys_Fideca1 :.5f} ")
+    # st.write(f"V_RD_DD_Fideca1 : {V_RD_DD_Fideca1 :.5f} ")
 
 
-    st.write(Psi_array)
-    st.write(Vd_Iteration_array)
-    st.write(V_RD_DD_min_Fideca1_array )
+    # st.write(Psi_array)
+    # st.write(Vd_Iteration_array)
+    # st.write(V_RD_DD_min_Fideca1_array )
     
-    st.write(Kr_Fideca1_array)
-    st.write(V_RD_DD_Fideca1_array)
-    st.write(V_RD_DD2_max_Fideca1_array)
+    # st.write(Kr_Fideca1_array)
+    # st.write(V_RD_DD_Fideca1_array)
+    # st.write(V_RD_DD2_max_Fideca1_array)
     
