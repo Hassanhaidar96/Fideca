@@ -255,5 +255,6 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"N_r: {N_r:.2f}")
     st.write(f"Fyd: {Fyd:.2f} MPa")
     st.write(f"Nt_berechnet: {Nt_berechnet:.2f} kN")
+    st.write(f"T_w: {T_w:.2f} kN")
 
 
