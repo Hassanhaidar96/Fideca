@@ -208,12 +208,12 @@ if st.sidebar.button("Run Analysis"):
     intersection_Psi_fideca1, intersection_Vd_fideca1 = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_Fideca1_array)
     intersection_V_RD_DD_min_fideca1 = np.interp(intersection_Psi_fideca1, Psi_array, V_RD_DD_min_Fideca1_array)
     
-    # # Find the intersection point for V_RD_DD_min
-    # intersection_Psi_min, intersection_Vd_min = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_array)
-    # intersection_V_RD_DD_min = np.interp(intersection_Psi_min, Psi_array, V_RD_DD_min_array)
+    # Find the intersection point for V_RD_DD_min
+    intersection_Psi_min, intersection_Vd_min = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_array)
+    intersection_V_RD_DD_min = np.interp(intersection_Psi_min, Psi_array, V_RD_DD_min_array)
     
     # Display intersection points
-    # st.write(f"Intersection Point (V_RD_DD_min): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
+    st.write(f"Intersection Point (V_RD_DD_min): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
     st.write(f"Intersection Point (V_RD_DD_min_Fideca1): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
     
     # Plotting the results (unchanged)
@@ -223,14 +223,14 @@ if st.sidebar.button("Run Analysis"):
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle='-', color='#8c564b', linewidth=1.5)
     
     # Mark the intersection points
-    # ax.scatter(intersection_Psi_min, intersection_Vd_min, color='red', s=120, zorder=5, label="Intersection (V_RD_DD_min)", edgecolors='black')
+    ax.scatter(intersection_Psi_min, intersection_Vd_min, color='red', s=120, zorder=5, label="Intersection (V_RD_DD_min)", edgecolors='black')
     ax.scatter(intersection_Psi_fideca1, intersection_Vd_fideca1, color='blue', s=120, zorder=5, label="Intersection (V_RD_DD_min_Fideca1)", edgecolors='black')
     
-    # # Annotate the intersection points
-    # ax.annotate(f'Intersection (V_RD_DD_min)\nΨ: {intersection_Psi_min:.4f} rad\nVd: {intersection_Vd_min:.2f} kN',
-    #              xy=(intersection_Psi_min, intersection_Vd_min),
-    #              xytext=(intersection_Psi_min + 0.002, intersection_Vd_min - 100),
-    #              arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
+    # Annotate the intersection points
+    ax.annotate(f'Intersection (V_RD_DD_min)\nΨ: {intersection_Psi_min:.4f} rad\nVd: {intersection_Vd_min:.2f} kN',
+                  xy=(intersection_Psi_min, intersection_Vd_min),
+                  xytext=(intersection_Psi_min + 0.002, intersection_Vd_min - 100),
+                  arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
     
     ax.annotate(f'Intersection (V_RD_DD_min_Fideca1)\nΨ: {intersection_Psi_fideca1:.4f} rad\nVd: {intersection_Vd_fideca1:.2f} kN',
                  xy=(intersection_Psi_fideca1, intersection_Vd_fideca1),
@@ -248,7 +248,7 @@ if st.sidebar.button("Run Analysis"):
     ax.spines['right'].set_visible(False)
     
     ax.set_xlim(0, 0.02)
-    ax.set_ylim(0, 2000)
+    ax.set_ylim(0, 3000)
     
     plt.tight_layout()
     st.pyplot(fig)
