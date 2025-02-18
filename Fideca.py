@@ -106,7 +106,10 @@ if st.sidebar.button("Run Analysis"):
     V_RD_DD_min_list = []
     VRd_aus_list = []
     VRdc_VRds_list = []
+    
     Kr_Fideca1_list = []
+    V_RD_DD_Fideca1_list = []
+    V_RD_DD2_max_Fideca1_list = []
     
     # Loop over Vd_Iteration from 1 to 1500
     for Vd_Iteration in range(1, 1495):
@@ -169,8 +172,12 @@ if st.sidebar.button("Run Analysis"):
 
         
         Kr_Fideca1_list.append(Kr_Fideca1)
+        V_RD_DD_Fideca1_list.append(V_RD_DD_Fideca1)
+        V_RD_DD2_max_Fideca1_list.append(V_RD_DD2_max_Fideca1)
         
     Kr_Fideca1_array = np.array(Kr_Fideca1_list)    
+    V_RD_DD_Fideca1_array = np.array(V_RD_DD_Fideca1_list) 
+    V_RD_DD2_max_Fideca1_array = np.array(V_RD_DD2_max_Fideca1_list) 
     
     # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list) 
@@ -296,6 +303,8 @@ if st.sidebar.button("Run Analysis"):
     st.write(Psi_array)
     st.write(Vd_Iteration_array)
     st.write(V_RD_DD_min_Fideca1_array )
+    
     st.write(Kr_Fideca1_array)
-  
+    st.write(Kr_Fideca1_array)
+    st.write(Kr_Fideca1_array)
     
