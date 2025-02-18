@@ -248,7 +248,7 @@ if st.sidebar.button("Run Analysis"):
     ax.spines['right'].set_visible(False)
     
     ax.set_xlim(0, 0.02)
-    ax.set_ylim(0, 3000)
+    ax.set_ylim(0, H*10)
     
     plt.tight_layout()
     st.pyplot(fig)
