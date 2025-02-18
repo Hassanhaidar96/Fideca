@@ -222,7 +222,7 @@ if st.sidebar.button("Run Analysis"):
     ax.set_ylabel('Shear Force (kN)', fontsize=12, labelpad=10)
     ax.set_title('Rotation Ψ vs Shear Force', fontsize=14, pad=15)
     
-    ax.legend(loc='upper right', frameon=True)
+    ax.legend(loc='lower right', frameon=True)
     ax.grid(True, linestyle=':', alpha=0.7)
     ax.spines['bottom'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -267,12 +267,16 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"Nt_berechnet: {Nt_berechnet:.2f} kN")
     st.write(f"Sigma_sd: {Sigma_sd:.2f} kN")
     st.write(f"T_w: {T_w:.2f} kN")
-    
-    
-    
     st.write(f"m_sdx: {m_sdx:.2f} ")   
     st.write(f"m_sdy: {m_sdy:.2f} ") 
-    
     st.write(f"Psi_x: {Psi_x:.5f} ")
     st.write(f"Psi_y: {Psi_y:.5f} ")
     st.write(f"Psi: {Psi:.5f} ")
+ 
+    st.write(f"Ksys_max: {Ksys_max:.5f} ")
+    st.write(f"Ksys : {Ksys :.5f} ")
+    
+    st.write(f"Kr_Fideca1: {Kr_Fideca1:.5f} ")
+    st.write(f"Ksys_Fideca1 : {Ksys_Fideca1 :.5f} ")
+    
+
