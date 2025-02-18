@@ -73,7 +73,7 @@ if st.sidebar.button("Run Analysis"):
     U_red_0 = U_0 * Ke_0
 
     Vd_effective = 1300
-    Vd_Iteration = 1380
+    # Vd_Iteration = 1380
 
     r_sx = 0.22 * Column_Span_X
     r_sy = 0.22 * Column_Span_Y
@@ -257,6 +257,11 @@ if st.sidebar.button("Run Analysis"):
     st.write(f"Nt_berechnet: {Nt_berechnet:.2f} kN")
     st.write(f"Sigma_sd: {Sigma_sd:.2f} kN")
     st.write(f"T_w: {T_w:.2f} kN")
+    
+    
+    
+    st.write(f"m_sdx: {m_sdx:.2f} ")   
+    st.write(f"m_sdy: {m_sdy:.2f} ") 
     
     st.write(f"Psi_x: {Psi_x:.2f} ")
     st.write(f"Psi_y: {Psi_y:.2f} ")
