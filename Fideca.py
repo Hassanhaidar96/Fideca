@@ -8,6 +8,7 @@ import streamlit as st
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.interpolate import interp1d
 
 st.set_page_config(
     page_icon="LogoTab.png",  
@@ -165,39 +166,46 @@ if st.sidebar.button("Run Analysis"):
         # VRd_aus_list.append(VRd_aus)
         # VRdc_VRds_list.append(VRdc_VRds)
 
+
+
     # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list) 
     VRd_array = np.array(VRd_list)
-    
     V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1_list)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
-    
-    # VRd_aus_array = np.array(VRd_aus_list)
-    # VRdc_VRds_array = np.array(VRdc_VRds_list)
-    
     Psi_array = np.array(Psi_list)
-
-    # Find the closest intersection point for V_RD_DD_min_array
-    index_min = np.argmin(np.abs(Vd_Iteration_array - V_RD_DD_min_array))
-    intersection_Vd_min = Vd_Iteration_array[index_min]
-    intersection_V_RD_DD_min = V_RD_DD_min_array[index_min]
-    intersection_Psi_min = Psi_list[index_min]
     
-    # Find the closest intersection point for V_RD_DD_min_Fideca1_array
-    index_fideca1 = np.argmin(np.abs(Vd_Iteration_array - V_RD_DD_min_Fideca1_array))
-    intersection_Vd_fideca1 = Vd_Iteration_array[index_fideca1]
-    intersection_V_RD_DD_min_fideca1 = V_RD_DD_min_Fideca1_array[index_fideca1]
-    intersection_Psi_fideca1 = Psi_list[index_fideca1]
-
+    # Function to find intersection using interpolation
+    def find_intersection(x1, y1, x2, y2):
+        # Interpolate the two curves
+        interp1 = interp1d(x1, y1, kind='linear', fill_value="extrapolate")
+        interp2 = interp1d(x2, y2, kind='linear', fill_value="extrapolate")
+        
+        # Define a function to find the difference between the two curves
+        def difference(x):
+            return interp1(x) - interp2(x)
+        
+        # Find the root of the difference function (where the curves intersect)
+        from scipy.optimize import brentq
+        intersection_x = brentq(difference, min(x1[0], x2[0]), max(x1[-1], x2[-1]))
+        intersection_y = interp1(intersection_x)
+        
+        return intersection_x, intersection_y
+    
+    # Find the intersection point for V_RD_DD_min_Fideca1
+    intersection_Psi_fideca1, intersection_Vd_fideca1 = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_Fideca1_array)
+    intersection_V_RD_DD_min_fideca1 = np.interp(intersection_Psi_fideca1, Psi_array, V_RD_DD_min_Fideca1_array)
+    
+    # Find the intersection point for V_RD_DD_min
+    intersection_Psi_min, intersection_Vd_min = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_array)
+    intersection_V_RD_DD_min = np.interp(intersection_Psi_min, Psi_array, V_RD_DD_min_array)
+    
     # Display intersection points
     st.write(f"Intersection Point (V_RD_DD_min): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
     st.write(f"Intersection Point (V_RD_DD_min_Fideca1): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
-
-
-    # Plotting the results
+    
+    # Plotting the results (unchanged)
     fig, ax = plt.subplots(figsize=(10, 6))
-
-    # Plot rotation (x-axis) vs. shear force (y-axis)
     ax.plot(Psi_list, Vd_Iteration_list, label='Vd_Iteration', linestyle='-', marker='o', markersize=3, color='#7f7f7f', linewidth=1)
     ax.plot(Psi_list, V_RD_DD_min_Fideca1_array, label='V_RD_DD_Fideca_1.0', linestyle='-', color='#1f77b4', linewidth=1.5)
     ax.plot(Psi_list, V_RD_DD_min_array, label='V_RD_DD', linestyle='-', color='#8c564b', linewidth=1.5)
@@ -205,7 +213,7 @@ if st.sidebar.button("Run Analysis"):
     # Mark the intersection points
     ax.scatter(intersection_Psi_min, intersection_Vd_min, color='red', s=120, zorder=5, label="Intersection (V_RD_DD_min)", edgecolors='black')
     ax.scatter(intersection_Psi_fideca1, intersection_Vd_fideca1, color='blue', s=120, zorder=5, label="Intersection (V_RD_DD_min_Fideca1)", edgecolors='black')
-
+    
     # Annotate the intersection points
     ax.annotate(f'Intersection (V_RD_DD_min)\nΨ: {intersection_Psi_min:.4f} rad\nVd: {intersection_Vd_min:.2f} kN',
                  xy=(intersection_Psi_min, intersection_Vd_min),
@@ -216,7 +224,7 @@ if st.sidebar.button("Run Analysis"):
                  xy=(intersection_Psi_fideca1, intersection_Vd_fideca1),
                  xytext=(intersection_Psi_fideca1 + 0.002, intersection_Vd_fideca1 - 100),
                  arrowprops=dict(arrowstyle="->", lw=1.2, color='gray'))
-
+    
     # Axis labels and titles
     ax.set_xlabel('Rotation Ψ (rad)', fontsize=12, labelpad=10)
     ax.set_ylabel('Shear Force (kN)', fontsize=12, labelpad=10)
