@@ -224,7 +224,7 @@ if st.sidebar.button("Run Analysis"):
     
     ax.legend(loc='upper right', frameon=True)
     ax.grid(True, linestyle=':', alpha=0.7)
-    ax.spines['buttom'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
     ax.set_xlim(0, 0.02)
