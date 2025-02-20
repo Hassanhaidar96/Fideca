@@ -151,19 +151,19 @@ if st.sidebar.button("Run Analysis"):
         Kr_Fideca1 = min((1/(0.45+(0.18*Psi*Kg*dv_0))),2)
         
         
-        Ksys_Fideca1_1 = 0
-        Ksys_Fideca1_2 = 0
+        Ksys_Fideca1_1 = 2.6
+        Ksys_Fideca1_2 = 2.6
         Ksys_Fideca1_3 = 2.6
         
-        # if 160 < dv_0 < 220:
-        #     Ksys_Fideca1_1 = 4.4 - (14.4/dv_0)*Cu
+        if 160 < dv_0 < 220:
+            Ksys_Fideca1_1 = 4.4 - (14.4/dv_0)*Cu
              
-        # if dv_0/8 < Cu < dv_0/6:
-        #     Ksys_Fideca1_2 = 0.01 * dv_0 +0.4
+        if dv_0/8 < Cu < dv_0/6:
+            Ksys_Fideca1_2 = 0.01 * dv_0 +0.4
     
-        # Ksys_Fideca1 = min(Ksys_Fideca1_1,Ksys_Fideca1_2,Ksys_Fideca1_3)
+        Ksys_Fideca1 = min(Ksys_Fideca1_1,Ksys_Fideca1_2,Ksys_Fideca1_3)
         
-        Ksys_Fideca1 = min(2.6, 4.4 - (14.4/dv_0)*Cu, 0.01 * dv_0 +0.4)
+        # Ksys_Fideca1 = min(2.6, 4.4 - (14.4/dv_0)*Cu, 0.01 * dv_0 +0.4)
         # Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
         
         Ksys_Fideca1_max = 3.5
