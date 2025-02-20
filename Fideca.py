@@ -111,6 +111,11 @@ if st.sidebar.button("Run Analysis"):
     V_RD_DD_Fideca1_list = []
     V_RD_DD2_max_Fideca1_list = []
     
+    Ksys_list = []
+    Ksys_max_list = []
+    Ksys_Fideca1_list = []
+    Ksys_Fideca1_max_list = []
+    
     # Loop over Vd_Iteration from 1 to 1500
     for Vd_Iteration in range(1, 10001):
         # Calculate m_sdx and m_sdy (dependent on Vd_Iteration)
@@ -164,28 +169,35 @@ if st.sidebar.button("Run Analysis"):
         # Store results
         Vd_Iteration_list.append(Vd_Iteration)
         Psi_list.append(Psi)
-        # VRd_list.append(VRd)
 
         V_RD_DD_min_Fideca1_list.append(V_RD_DD_min_Fideca1) #Fideca 1.0
         V_RD_DD_min_list.append(V_RD_DD_min)
-        # VRd_aus_list.append(VRd_aus)
-        # VRdc_VRds_list.append(VRdc_VRds)
 
-        
         Kr_Fideca1_list.append(Kr_Fideca1)
         V_RD_DD_Fideca1_list.append(V_RD_DD_Fideca1)
         V_RD_DD2_max_Fideca1_list.append(V_RD_DD2_max_Fideca1)
         
+        # Append the calculated values to their respective lists
+        Ksys_list.append(Ksys)
+        Ksys_max_list.append(Ksys_max)
+        Ksys_Fideca1_list.append(Ksys_Fideca1)
+        Ksys_Fideca1_max_list.append(Ksys_Fideca1_max)
+        
+        
+    # Convert lists to NumPy arrays    
     Kr_Fideca1_array = np.array(Kr_Fideca1_list)    
     V_RD_DD_Fideca1_array = np.array(V_RD_DD_Fideca1_list) 
     V_RD_DD2_max_Fideca1_array = np.array(V_RD_DD2_max_Fideca1_list) 
-    
-    # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list) 
     VRd_array = np.array(VRd_list)
     V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1_list)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
     Psi_array = np.array(Psi_list)
+    
+    Ksys_array = np.array(Ksys_list)
+    Ksys_max_array = np.array(Ksys_max_list)
+    Ksys_Fideca1_array = np.array(Ksys_Fideca1_list)
+    Ksys_Fideca1_max_array = np.array(Ksys_Fideca1_max_list)
     
     # Function to find intersection using interpolation
     def find_intersection(x1, y1, x2, y2):
@@ -212,8 +224,15 @@ if st.sidebar.button("Run Analysis"):
     intersection_Psi_min, intersection_Vd_min = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_array)
     intersection_V_RD_DD_min = np.interp(intersection_Psi_min, Psi_array, V_RD_DD_min_array)
     
+    # Retrieve the corresponding values of Ksys, Ksys_max, Ksys_Fideca1, and Ksys_Fideca1_max at the intersection points
+    Ksys_intersection = np.interp(intersection_Psi_min, Psi_array, Ksys_array)
+    Ksys_max_intersection = np.interp(intersection_Psi_min, Psi_array, Ksys_max_array)
+    Ksys_Fideca1_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_array)
+    Ksys_Fideca1_max_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_max_array)
+    
     # Display intersection points
     st.write(f"Intersection Point (Fideca 2.0): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
+    
     st.write(f"Intersection Point (Fideca 1.0): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
     
     # Plotting the results (unchanged)
@@ -309,3 +328,11 @@ if st.sidebar.button("Run Analysis"):
     # st.write(V_RD_DD_Fideca1_array)
     # st.write(V_RD_DD2_max_Fideca1_array)
     
+    # Print out the values
+    print(f"At the intersection point for V_RD_DD_min:")
+    print(f"Ksys: {Ksys_intersection}")
+    print(f"Ksys_max: {Ksys_max_intersection}")
+    
+    print(f"At the intersection point for V_RD_DD_min_Fideca1:")
+    print(f"Ksys_Fideca1: {Ksys_Fideca1_intersection}")
+    print(f"Ksys_Fideca1_max: {Ksys_Fideca1_max_intersection}")
