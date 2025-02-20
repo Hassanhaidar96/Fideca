@@ -331,7 +331,7 @@ if st.sidebar.button("Run Analysis"):
     # Print out the values
     print(f"At the intersection point for V_RD_DD_min:")
     print(f"Ksys: {Ksys_intersection}")
-    print(f"Ksys_max: {Ksys_max_inters
+    print(f"Ksys_max: {Ksys_max_intersection}")
     
     print(f"At the intersection point for V_RD_DD_min_Fideca1:")
     print(f"Ksys_Fideca1: {Ksys_Fideca1_intersection}")
