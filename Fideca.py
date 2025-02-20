@@ -32,8 +32,8 @@ Phi_y_Flexural = st.sidebar.number_input("Diameter of rebar in Y direction [mm]"
 Spacing_Phi_y_Flexural = st.sidebar.number_input("Spacing of rebar in Y direction [mm]", value=100)
 
 Phi_x_y_Compression = st.sidebar.number_input("Diameter of compression rebar [mm]", value=10)
-Spacing_Phi_x_Compression = st.sidebar.number_input("Spacing of compression rebar in X direction [mm]", value=250)
-Spacing_Phi_y_Compression = st.sidebar.number_input("Spacing of compression rebar in Y direction [mm]", value=250)
+Spacing_Phi_x_Compression = st.sidebar.number_input("Ax [mm]", value=250)
+Spacing_Phi_y_Compression = st.sidebar.number_input("Ay [mm]", value=250)
 
 Ke_0 = st.sidebar.number_input("Coeff. for internal column", value=0.9)
 Fck = st.sidebar.number_input("Concrete Characteristic compressive strength [MPa]", value=30)
