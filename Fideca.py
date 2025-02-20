@@ -230,17 +230,22 @@ if st.sidebar.button("Run Analysis"):
     Ksys_Fideca1_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_array)
     Ksys_Fideca1_max_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_max_array)
     
-    # Display intersection points
-    st.write(f"Intersection Point (Fideca 2.0): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
-    st.write(f"Intersection Point (Fideca 1.0): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
+    # Fideca versions comparison
+    st.write(f"""
+    **Fideca 2.0**  
+    Ψ = {intersection_Psi_min:.4f},  
+    Vd = {intersection_Vd_min:.2f} kN,  
+    VRd = {intersection_V_RD_DD_min:.2f} kN
+    Ksys: {Ksys_intersection}  
+    Ksys_max: {Ksys_max_intersection}
     
-    # Print out the values
-    st.write(f"At the intersection point for V_RD_DD_min:")
-    st.write(f"Ksys: {Ksys_intersection}")
-    st.write(f"Ksys_max: {Ksys_max_intersection}")
-    st.write(f"At the intersection point for V_RD_DD_min_Fideca1:")
-    st.write(f"Ksys_Fideca1: {Ksys_Fideca1_intersection}")
-    st.write(f"Ksys_Fideca1_max: {Ksys_Fideca1_max_intersection}")
+    **Fideca 1.0**  
+    Ψ = {intersection_Psi_fideca1:.4f},  
+    Vd = {intersection_Vd_fideca1:.2f} kN,  
+    VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN
+    Ksys: {Ksys_Fideca1_intersection}  
+    Ksys_max: {Ksys_Fideca1_max_intersection}
+    """)
     
     # Plotting the results (unchanged)
     fig, ax = plt.subplots(figsize=(10, 6))
