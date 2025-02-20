@@ -44,17 +44,7 @@ Column_Span_X = st.sidebar.number_input("Length between columns in X direction [
 Column_Span_Y = st.sidebar.number_input("Length between columns in Y direction [mm]", value=6800)
 Phi_Stirrups = st.sidebar.number_input("Diameter of shear reinforcement [mm]", value=8)
 Betta = st.sidebar.number_input("Angle of shear reinforcement [degrees]", value=60)
-Fbd = st.sidebar.number_input("Bond strength [MPa]", value=2.4)
-N_s = st.sidebar.number_input("Number of Stirrups in the critical Area", value=60)
-L_Korb = st.sidebar.number_input("Length of Korb [mm]", value=900)
 
-# Run button
-if st.sidebar.button("Run Analysis"):
-    # Calculations
-    dv_x_0 = H - Co - (Phi_x_Flexural / 2)
-    dv_y_0 = H - Co - Phi_x_Flexural - (Phi_y_Flexural / 2)
-    dv_0 = (dv_x_0 + dv_y_0) / 2
-    dv_out = dv_0 - Cu - Phi_x_y_Compression - (Phi_x_y_Compression / 2)
 
     Asx = (math.pi) * Phi_x_Flexural**2 * 0.25 * (1000 / Spacing_Phi_x_Flexural)
     Asy = (math.pi) * Phi_y_Flexural**2 * 0.25 * (1000 / Spacing_Phi_y_Flexural)
