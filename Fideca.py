@@ -257,15 +257,15 @@ if st.sidebar.button("Run Analysis"):
     Ψ = {intersection_Psi_min:.4f}  
     Vd = {intersection_Vd_min:.2f} kN  
     VRd = {intersection_V_RD_DD_min:.2f} kN  
-    Ksys: {Ksys_intersection:.2f}  
-    Ksys_max: {Ksys_max_intersection:.2f}  
+    Ksys: {Ksys_intersection:.3f}  
+    Ksys_max: {Ksys_max_intersection:.3f}  
     
     **Fideca 1.0**  
     Ψ = {intersection_Psi_fideca1:.4f}  
     Vd = {intersection_Vd_fideca1:.2f} kN  
     VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN  
-    Ksys: {Ksys_Fideca1_intersection:.2f}  
-    Ksys_max: {Ksys_Fideca1_max_intersection:.2f}  
+    Ksys: {Ksys_Fideca1_intersection:.3f}  
+    Ksys_max: {Ksys_Fideca1_max_intersection:.3f}  
     """)
     
     # Plotting the results (unchanged)
