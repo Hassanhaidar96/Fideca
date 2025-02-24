@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # Streamlit app title
-st.title("Fideca")
+st.title("Fideca - Currently under Update")
 
 # Input parameters
 st.sidebar.header("Input Parameters")
@@ -155,10 +155,6 @@ if st.sidebar.button("Run Analysis"):
         Ksys_Fideca1_2 = 2.6
         Ksys_Fideca1_3 = 2.6
         
-        # if 160 < dv_0 < 220:
-        #     Ksys_Fideca1_1 = 4.4 - (14.4/dv_0)*Cu
-        # if dv_0/8 < Cu < dv_0/6:
-        #     Ksys_Fideca1_2 = 0.01 * dv_0 +0.4
     
         if  dv_0/8 < Cu:
             Ksys_Fideca1_1 = 4.4 - (14.4/dv_0)*Cu
@@ -167,9 +163,7 @@ if st.sidebar.button("Run Analysis"):
     
     
         Ksys_Fideca1 = min(Ksys_Fideca1_1,Ksys_Fideca1_2,Ksys_Fideca1_3)
-        
-        # Ksys_Fideca1 = min(2.6, 4.4 - (14.4/dv_0)*Cu, 0.01 * dv_0 +0.4)
-        # Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
+    
         
         Ksys_Fideca1_max = 3.5
 
@@ -180,11 +174,6 @@ if st.sidebar.button("Run Analysis"):
         V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
-
-        # VRd_aus = Kr * Taw_cd * dv_out * U_red1 / 1000
-        # VRd_s = Ke_0 * T_w
-        # VRdc_VRds = (V_RD_DD_min / Ksys) + VRd_s
-        # VRd = min(V_RD_DD_min, VRd_aus, VRdc_VRds)
         
 
         # Store results
@@ -250,6 +239,9 @@ if st.sidebar.button("Run Analysis"):
     Ksys_max_intersection = np.interp(intersection_Psi_min, Psi_array, Ksys_max_array)
     Ksys_Fideca1_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_array)
     Ksys_Fideca1_max_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_max_array)
+    
+    
+    
     
     # Fideca versions comparison
     st.write(f"""
