@@ -163,7 +163,8 @@ if st.sidebar.button("Run Analysis"):
     
     
         Ksys_Fideca1 = min(Ksys_Fideca1_1,Ksys_Fideca1_2,Ksys_Fideca1_3)
-    
+        
+        Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
         
         Ksys_Fideca1_max = 3.5
 
