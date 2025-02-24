@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # Streamlit app title
-st.title("Shear Force and Rotation Analysis")
+st.title("Fideca - Currently under Update")
 
 # Input parameters
 st.sidebar.header("Input Parameters")
@@ -32,16 +32,16 @@ Phi_y_Flexural = st.sidebar.number_input("Diameter of rebar in Y direction [mm]"
 Spacing_Phi_y_Flexural = st.sidebar.number_input("Spacing of rebar in Y direction [mm]", value=100)
 
 Phi_x_y_Compression = st.sidebar.number_input("Diameter of compression rebar [mm]", value=10)
-Spacing_Phi_x_Compression = st.sidebar.number_input("Spacing of compression rebar in X direction [mm]", value=250)
-Spacing_Phi_y_Compression = st.sidebar.number_input("Spacing of compression rebar in Y direction [mm]", value=250)
+Spacing_Phi_x_Compression = st.sidebar.number_input("Ax [mm]", value=250)
+Spacing_Phi_y_Compression = st.sidebar.number_input("Ay [mm]", value=250)
 
 Ke_0 = st.sidebar.number_input("Coeff. for internal column", value=0.9)
 Fck = st.sidebar.number_input("Concrete Characteristic compressive strength [MPa]", value=30)
 D_max = st.sidebar.number_input("Aggregate size [mm]", value=32)
 E_s = st.sidebar.number_input("Young Modulus [MPa]", value=205000)
 Fsk = st.sidebar.number_input("Reinforcement Yield Strength [MPa]", value=500)
-Column_Span_X = st.sidebar.number_input("Length between columns in X direction [mm]", value=6800)
-Column_Span_Y = st.sidebar.number_input("Length between columns in Y direction [mm]", value=6800)
+Column_Span_X = st.sidebar.number_input("Length between columns in X direction [mm]", value=5000)
+Column_Span_Y = st.sidebar.number_input("Length between columns in Y direction [mm]", value=5000)
 Phi_Stirrups = st.sidebar.number_input("Diameter of shear reinforcement [mm]", value=8)
 Betta = st.sidebar.number_input("Angle of shear reinforcement [degrees]", value=60)
 Fbd = st.sidebar.number_input("Bond strength [MPa]", value=2.4)
@@ -111,8 +111,13 @@ if st.sidebar.button("Run Analysis"):
     V_RD_DD_Fideca1_list = []
     V_RD_DD2_max_Fideca1_list = []
     
+    Ksys_list = []
+    Ksys_max_list = []
+    Ksys_Fideca1_list = []
+    Ksys_Fideca1_max_list = []
+    
     # Loop over Vd_Iteration from 1 to 1500
-    for Vd_Iteration in range(1, 10001):
+    for Vd_Iteration in range(1, 13001):
         # Calculate m_sdx and m_sdy (dependent on Vd_Iteration)
         m_sdx = Vd_Iteration * (((1 / 8)) + (e_ux / (2 * B_s)))  # SIA 4.3.6.4.7
         m_sdy = Vd_Iteration * (((1 / 8)) + (e_uy / (2 * B_s)))  # SIA 4.3.6.4.7
@@ -144,48 +149,66 @@ if st.sidebar.button("Run Analysis"):
         U_red1 = U_out * k_e_out
 
         Kr_Fideca1 = min((1/(0.45+(0.18*Psi*Kg*dv_0))),2)
-        Ksys_Fideca1 = min(2.6, 2.6 - 0.6 *((Cu/dv_0) - 0.125)/((1/6) -(1/8)))
+        
+        
+        Ksys_Fideca1_1 = 2.6
+        Ksys_Fideca1_2 = 2.6
+        Ksys_Fideca1_3 = 2.6
+        
+    
+        if  dv_0/8 < Cu:
+            Ksys_Fideca1_1 = 4.4 - (14.4/dv_0)*Cu
+        if  dv_0 < 220:
+            Ksys_Fideca1_2 = 0.01 * dv_0 +0.4
+    
+    
+        Ksys_Fideca1 = min(Ksys_Fideca1_1,Ksys_Fideca1_2,Ksys_Fideca1_3)
+    
+        
         Ksys_Fideca1_max = 3.5
 
         V_RD_DD_Fideca1 = Ksys_Fideca1 * Kr_Fideca1 * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD2_max_Fideca1 = Ksys_Fideca1_max * Taw_cd * U_red_0 * dv_0 / 1000
         V_RD_DD_min_Fideca1 = min(V_RD_DD_Fideca1, V_RD_DD2_max_Fideca1)
 
-        V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
 
-        # VRd_aus = Kr * Taw_cd * dv_out * U_red1 / 1000
-        # VRd_s = Ke_0 * T_w
-        # VRdc_VRds = (V_RD_DD_min / Ksys) + VRd_s
-        # VRd = min(V_RD_DD_min, VRd_aus, VRdc_VRds)
+        V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
+        V_RD_DD2_max = Ksys_Fideca1_max * Taw_cd * U_red_0 * dv_0 / 1000 #Ksys_max of Fideca 1.0 is used
+        V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
         
 
         # Store results
         Vd_Iteration_list.append(Vd_Iteration)
         Psi_list.append(Psi)
-        # VRd_list.append(VRd)
 
         V_RD_DD_min_Fideca1_list.append(V_RD_DD_min_Fideca1) #Fideca 1.0
         V_RD_DD_min_list.append(V_RD_DD_min)
-        # VRd_aus_list.append(VRd_aus)
-        # VRdc_VRds_list.append(VRdc_VRds)
 
-        
         Kr_Fideca1_list.append(Kr_Fideca1)
         V_RD_DD_Fideca1_list.append(V_RD_DD_Fideca1)
         V_RD_DD2_max_Fideca1_list.append(V_RD_DD2_max_Fideca1)
         
+        # Append the calculated values to their respective lists
+        Ksys_list.append(Ksys)
+        Ksys_max_list.append(Ksys_max)
+        Ksys_Fideca1_list.append(Ksys_Fideca1)
+        Ksys_Fideca1_max_list.append(Ksys_Fideca1_max)
+        
+        
+    # Convert lists to NumPy arrays    
     Kr_Fideca1_array = np.array(Kr_Fideca1_list)    
     V_RD_DD_Fideca1_array = np.array(V_RD_DD_Fideca1_list) 
     V_RD_DD2_max_Fideca1_array = np.array(V_RD_DD2_max_Fideca1_list) 
-    
-    # Convert lists to NumPy arrays
     Vd_Iteration_array = np.array(Vd_Iteration_list) 
     VRd_array = np.array(VRd_list)
     V_RD_DD_min_Fideca1_array = np.array(V_RD_DD_min_Fideca1_list)
     V_RD_DD_min_array = np.array(V_RD_DD_min_list)
     Psi_array = np.array(Psi_list)
+    
+    Ksys_array = np.array(Ksys_list)
+    Ksys_max_array = np.array(Ksys_max_list)
+    Ksys_Fideca1_array = np.array(Ksys_Fideca1_list)
+    Ksys_Fideca1_max_array = np.array(Ksys_Fideca1_max_list)
     
     # Function to find intersection using interpolation
     def find_intersection(x1, y1, x2, y2):
@@ -212,9 +235,31 @@ if st.sidebar.button("Run Analysis"):
     intersection_Psi_min, intersection_Vd_min = find_intersection(Psi_array, Vd_Iteration_array, Psi_array, V_RD_DD_min_array)
     intersection_V_RD_DD_min = np.interp(intersection_Psi_min, Psi_array, V_RD_DD_min_array)
     
-    # Display intersection points
-    st.write(f"Intersection Point (Fideca 2.0): Ψ = {intersection_Psi_min:.4f}, Vd = {intersection_Vd_min:.2f} kN, VRd = {intersection_V_RD_DD_min:.2f} kN")
-    st.write(f"Intersection Point (Fideca 1.0): Ψ = {intersection_Psi_fideca1:.4f}, Vd = {intersection_Vd_fideca1:.2f} kN, VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN")
+    # Retrieve the corresponding values of Ksys, Ksys_max, Ksys_Fideca1, and Ksys_Fideca1_max at the intersection points
+    Ksys_intersection = np.interp(intersection_Psi_min, Psi_array, Ksys_array)
+    Ksys_max_intersection = np.interp(intersection_Psi_min, Psi_array, Ksys_max_array)
+    Ksys_Fideca1_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_array)
+    Ksys_Fideca1_max_intersection = np.interp(intersection_Psi_fideca1, Psi_array, Ksys_Fideca1_max_array)
+    
+    
+    
+    
+    # Fideca versions comparison
+    st.write(f"""
+    **Fideca 2.0**  
+    Ψ = {intersection_Psi_min:.4f}  
+    Vd = {intersection_Vd_min:.2f} kN  
+    VRd = {intersection_V_RD_DD_min:.2f} kN  
+    Ksys: {Ksys_intersection:.3f}  
+    Ksys_max: {Ksys_max_intersection:.3f}  
+    
+    **Fideca 1.0**  
+    Ψ = {intersection_Psi_fideca1:.4f}  
+    Vd = {intersection_Vd_fideca1:.2f} kN  
+    VRd = {intersection_V_RD_DD_min_fideca1:.2f} kN  
+    Ksys: {Ksys_Fideca1_intersection:.3f}  
+    Ksys_max: {Ksys_Fideca1_max_intersection:.3f}  
+    """)
     
     # Plotting the results (unchanged)
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -309,3 +354,4 @@ if st.sidebar.button("Run Analysis"):
     # st.write(V_RD_DD_Fideca1_array)
     # st.write(V_RD_DD2_max_Fideca1_array)
     
+
