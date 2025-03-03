@@ -135,7 +135,8 @@ if st.sidebar.button("Run Analysis"):
         Kr = min((1 / (0.45 + (0.18 * Psi * Kg * dv_0))), 2)
 
         Ksys = 3.3 * min(1, (1 - 3.2 * (((Cu + 15) / dv_0) - 0.125)))
-        Ksys_max = 4 * (1 - (0.5 * (15 / (15 + max(Phi_x_Flexural, Phi_y_Flexural)))))
+        # Ksys_max = 4 * (1 - (0.5 * (15 / (15 + max(Phi_x_Flexural, Phi_y_Flexural)))))
+        Ksys_max = 3.5 # Similar to Fideca 1
 
         ### A_out and U_out calculations
         A_out = (((L_Korb + 100 + L_Korb) * L_Korb) + 
@@ -173,7 +174,7 @@ if st.sidebar.button("Run Analysis"):
 
 
         V_RD_DD = Ksys * Kr * Taw_cd * U_red_0 * dv_0 / 1000
-        V_RD_DD2_max = Ksys_Fideca1_max * Taw_cd * U_red_0 * dv_0 / 1000 #Ksys_max of Fideca 1.0 is used
+        V_RD_DD2_max = Ksys_max * Taw_cd * U_red_0 * dv_0 / 1000 #Ksys_max of Fideca 1.0 is used
         V_RD_DD_min = min(V_RD_DD, V_RD_DD2_max)
         
 
