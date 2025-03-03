@@ -158,8 +158,8 @@ if st.sidebar.button("Run Analysis"):
         
         if  dv_0/8 < Cu:
             Ksys_Fideca1_1 = 4.4 - (14.4/dv_0)*Cu
-        # if  dv_0 < 220:
-        #     Ksys_Fideca1_2 = 0.01 * dv_0 +0.4
+        if  dv_0 < 220:
+            Ksys_Fideca1_2 = 0.01 * dv_0 +0.4
             
         
         Ksys_Fideca1 = min(Ksys_Fideca1_1,Ksys_Fideca1_2,Ksys_Fideca1_3)
